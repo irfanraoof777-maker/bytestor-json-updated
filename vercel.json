@@ -2,6 +2,10 @@
   "version": 2,
   "builds": [
     {
+      "src": "artifacts/bytestor-website/package.json",
+      "use": "@vercel/next"
+    },
+    {
       "src": "artifacts/api-server/src/index.ts",
       "use": "@vercel/node",
       "config": {
@@ -15,8 +19,12 @@
   ],
   "routes": [
     {
-      "src": "/(.*)",
+      "src": "/api/(.*)",
       "dest": "/artifacts/api-server/src/index.ts"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/artifacts/bytestor-website/$1"
     }
   ]
 }
