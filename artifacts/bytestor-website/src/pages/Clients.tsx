@@ -8,7 +8,6 @@ const techPartners = [
     name: "Dell EMC",
     category: "Storage Hardware",
     color: "#007DB8",
-    abbr: "Dell\nEMC",
     svg: (
       <svg viewBox="0 0 120 40" className="w-24 h-10">
         <text x="0" y="30" fontFamily="Arial, sans-serif" fontWeight="800" fontSize="28" fill="#007DB8">Dell</text>
@@ -140,6 +139,40 @@ const techPartners = [
   },
 ];
 
+const clientLogos = [
+  { file: "3a.png",            name: "3A" },
+  { file: "abu dhabi.png",     name: "Abu Dhabi" },
+  { file: "afi.png",           name: "AFI" },
+  { file: "alchemy.png",       name: "Alchemy" },
+  { file: "anunta.png",        name: "Anunta" },
+  { file: "cap.png",           name: "CAP" },
+  { file: "CloudThat.jpg",     name: "CloudThat" },
+  { file: "clrinet.png",       name: "Clrinet" },
+  { file: "cognixia.png",      name: "Cognixia" },
+  { file: "ericsson.png",      name: "Ericsson" },
+  { file: "fasken.jpg",        name: "Fasken" },
+  { file: "gunosis.jpg",       name: "Gunosis" },
+  { file: "hcl.png",           name: "HCL" },
+  { file: "htc.png",           name: "HTC" },
+  { file: "iiht.png",          name: "IIHT" },
+  { file: "knowledge hut.png", name: "Knowledge Hut" },
+  { file: "koeing.jpg",        name: "Koenig" },
+  { file: "leelajay.jpg",      name: "Leelajay" },
+  { file: "marlbas.png",       name: "Marlbas" },
+  { file: "mindtree.png",      name: "Mindtree" },
+  { file: "navisite.png",      name: "Navisite" },
+  { file: "niit.png",          name: "NIIT" },
+  { file: "royal.jpg",         name: "Royal" },
+  { file: "rps.png",           name: "RPS" },
+  { file: "rts.png",           name: "RTS" },
+  { file: "tai.png",           name: "TAI" },
+  { file: "tamkeen.png",       name: "Tamkeen" },
+  { file: "teamlease.jpg",     name: "TeamLease" },
+  { file: "tekpro.png",        name: "Tekpro" },
+  { file: "thinkwright.jpg",   name: "Thinkwright" },
+  { file: "vinsys.jpg",        name: "Vinsys" },
+];
+
 const regions = [
   {
     icon: <Globe className="w-8 h-8 text-primary" />,
@@ -190,55 +223,63 @@ export default function Clients() {
         </div>
       </section>
 
-      {/* Our Trusted Clients — scrolling logo strip */}
-      <section className="py-20 bg-card border-b border-border">
+      {/* Client Logo Grid + Marquee */}
+      <section className="py-24 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-12"
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="text-center mb-14"
           >
             <p className="text-primary font-semibold uppercase tracking-widest text-sm mb-3">Our Network</p>
-            <h2 className="text-2xl md:text-4xl font-bold text-foreground mb-4">Our Trusted Clients</h2>
+            <h2 className="text-2xl md:text-4xl font-bold text-foreground mb-4">
+              Our Clients
+            </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              We are proud to have partnered with leading enterprises and organizations across diverse industries, delivering measurable impact through expert IT solutions.
+              We are proud to have partnered with leading enterprises and organizations across diverse industries,
+              delivering measurable impact through expert IT solutions and training.
             </p>
           </motion.div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+            {clientLogos.map((client, i) => (
+              <motion.div
+                key={client.file}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.04, duration: 0.4 }}
+                whileHover={{ y: -4, scale: 1.02 }}
+                className="bg-card border border-border rounded-2xl p-6 flex flex-col items-center justify-center gap-3 hover:border-primary/40 hover:shadow-lg hover:shadow-primary/10 transition-all group"
+                data-testid={`client-logo-${i}`}
+              >
+                <div className="h-12 flex items-center justify-center w-full overflow-hidden">
+                  <img
+                    src={`/clients/${encodeURIComponent(client.file)}`}
+                    alt={client.name}
+                    className="max-h-12 max-w-full object-contain"
+                  />
+                </div>
+                <p className="text-xs text-muted-foreground text-center leading-tight">{client.name}</p>
+              </motion.div>
+            ))}
+          </div>
         </div>
 
-        {/* Marquee strip */}
-        <div className="marquee-track overflow-hidden" data-testid="client-logos-marquee">
-          <div className="flex animate-marquee-slow whitespace-nowrap gap-6 px-6">
-            {[...Array(2)].flatMap((_, dupIdx) =>
-              ["client1.png", "client2.png", "client3.png", "client4.png", "client5.png", "client6.png", "client7.png", "client8.png"].map((file, i) => (
-                <div
-                  key={`${dupIdx}-${i}`}
-                  className="shrink-0 bg-background border border-border rounded-2xl px-8 py-5 flex items-center justify-center w-44 h-24 hover:border-primary/40 hover:shadow-lg hover:shadow-primary/10 transition-all"
-                  data-testid={`client-logo-${i}`}
-                >
-                  <img
-                    src={`/clients/${file}`}
-                    alt={`Client ${i + 1}`}
-                    className="max-w-full max-h-full object-contain opacity-80 hover:opacity-100 transition-opacity"
-                    onError={(e) => {
-                      const target = e.currentTarget;
-                      target.style.display = "none";
-                      const placeholder = target.nextElementSibling as HTMLElement | null;
-                      if (placeholder) placeholder.style.display = "flex";
-                    }}
-                  />
-                  <div
-                    className="hidden w-full h-full items-center justify-center"
-                    aria-hidden="true"
-                  >
-                    <span className="text-muted-foreground/40 text-xs font-semibold uppercase tracking-widest">
-                      Client {i + 1}
-                    </span>
-                  </div>
-                </div>
-              ))
-            )}
+        {/* Scrolling marquee strip */}
+        <div className="mt-16 marquee-track overflow-hidden border-t border-b border-border bg-secondary/30 py-6">
+          <p className="text-center text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-5">
+            Trusted By Organizations Across India & The Middle East
+          </p>
+          <div className="flex gap-14 animate-marquee-slow whitespace-nowrap px-4">
+            {[...clientLogos, ...clientLogos].map((c, i) => (
+              <div key={i} className="flex items-center gap-2 shrink-0">
+                <div className="w-3 h-3 rounded-full bg-primary shrink-0" />
+                <span className="text-muted-foreground font-semibold text-sm">{c.name}</span>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -297,23 +338,23 @@ export default function Clients() {
             ))}
           </div>
         </div>
-      </section>
 
-      {/* Scrolling marquee strip */}
-      <section className="py-8 border-y border-border bg-secondary/30 overflow-hidden">
-        <p className="text-center text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-5">
-          Certified & Vendor-Neutral Expertise Across Leading Platforms
-        </p>
-        <div className="flex gap-14 animate-marquee whitespace-nowrap px-4">
-          {[...techPartners, ...techPartners].map((p, i) => (
-            <div key={i} className="flex items-center gap-2 shrink-0">
-              <div
-                className="w-3 h-3 rounded-full shrink-0"
-                style={{ backgroundColor: p.color }}
-              />
-              <span className="text-muted-foreground font-semibold text-sm">{p.name}</span>
-            </div>
-          ))}
+        {/* Scrolling marquee strip */}
+        <div className="mt-16 marquee-track overflow-hidden border-t border-b border-border bg-secondary/30 py-6">
+          <p className="text-center text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-5">
+            Certified & Vendor-Neutral Expertise Across Leading Platforms
+          </p>
+          <div className="flex gap-14 animate-marquee whitespace-nowrap px-4">
+            {[...techPartners, ...techPartners].map((p, i) => (
+              <div key={i} className="flex items-center gap-2 shrink-0">
+                <div
+                  className="w-3 h-3 rounded-full shrink-0"
+                  style={{ backgroundColor: p.color }}
+                />
+                <span className="text-muted-foreground font-semibold text-sm">{p.name}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
