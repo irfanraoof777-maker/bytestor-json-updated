@@ -190,6 +190,59 @@ export default function Clients() {
         </div>
       </section>
 
+      {/* Our Trusted Clients — scrolling logo strip */}
+      <section className="py-20 bg-card border-b border-border">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-12"
+          >
+            <p className="text-primary font-semibold uppercase tracking-widest text-sm mb-3">Our Network</p>
+            <h2 className="text-2xl md:text-4xl font-bold text-foreground mb-4">Our Trusted Clients</h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              We are proud to have partnered with leading enterprises and organizations across diverse industries, delivering measurable impact through expert IT solutions.
+            </p>
+          </motion.div>
+        </div>
+
+        {/* Marquee strip */}
+        <div className="marquee-track overflow-hidden" data-testid="client-logos-marquee">
+          <div className="flex animate-marquee-slow whitespace-nowrap gap-6 px-6">
+            {[...Array(2)].flatMap((_, dupIdx) =>
+              ["client1.png", "client2.png", "client3.png", "client4.png", "client5.png", "client6.png", "client7.png", "client8.png"].map((file, i) => (
+                <div
+                  key={`${dupIdx}-${i}`}
+                  className="shrink-0 bg-background border border-border rounded-2xl px-8 py-5 flex items-center justify-center w-44 h-24 hover:border-primary/40 hover:shadow-lg hover:shadow-primary/10 transition-all"
+                  data-testid={`client-logo-${i}`}
+                >
+                  <img
+                    src={`/clients/${file}`}
+                    alt={`Client ${i + 1}`}
+                    className="max-w-full max-h-full object-contain opacity-80 hover:opacity-100 transition-opacity"
+                    onError={(e) => {
+                      const target = e.currentTarget;
+                      target.style.display = "none";
+                      const placeholder = target.nextElementSibling as HTMLElement | null;
+                      if (placeholder) placeholder.style.display = "flex";
+                    }}
+                  />
+                  <div
+                    className="hidden w-full h-full items-center justify-center"
+                    aria-hidden="true"
+                  >
+                    <span className="text-muted-foreground/40 text-xs font-semibold uppercase tracking-widest">
+                      Client {i + 1}
+                    </span>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+        </div>
+      </section>
+
       {/* Stats */}
       <section className="py-16 bg-primary/10 border-y border-primary/20">
         <div className="max-w-7xl mx-auto px-4">
