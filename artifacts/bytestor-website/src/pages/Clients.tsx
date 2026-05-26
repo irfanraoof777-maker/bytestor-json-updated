@@ -262,7 +262,6 @@ export default function Clients() {
                     className="max-h-12 max-w-full object-contain"
                   />
                 </div>
-                <p className="text-xs text-muted-foreground text-center leading-tight">{client.name}</p>
               </motion.div>
             ))}
           </div>
