@@ -35,11 +35,8 @@ function Navbar() {
     <nav className="fixed w-full z-50 top-0 left-0 bg-background/80 backdrop-blur-md border-b border-border">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
-          <Link href="/" className="flex items-center gap-2 cursor-pointer" data-testid="nav-logo">
-            <span className="text-2xl font-bold tracking-tighter">
-              <span className="text-foreground">Byte</span>
-              <span className="text-primary">Stor</span>
-            </span>
+          <Link href="/" className="flex items-center cursor-pointer" data-testid="nav-logo">
+            <img src="/bytestor-logo.jpg" alt="ByteStor IT Services" className="h-12 w-auto object-contain" />
           </Link>
 
           <div className="hidden md:flex items-center space-x-6">
