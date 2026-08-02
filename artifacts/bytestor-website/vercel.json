@@ -1,5 +1,7 @@
+cat > artifacts/bytestor-website/vercel.json <<'EOF'
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "buildCommand": "pnpm build",
   "outputDirectory": "dist/public"
 }
+EOF
