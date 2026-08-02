@@ -964,15 +964,16 @@ export default function DRCopilotAssessment() {
                           org.expectedRPO && { label: "Expected RPO", value: org.expectedRPO },
                           org.expectedRTO && { label: "Expected RTO", value: org.expectedRTO },
                         ]
-                          .filter(Boolean)
-                          .map((row: { label: string; value: string } | false, i) =>
-                            row ? (
-                              <div key={i} className="flex gap-2">
-                                <span className="text-muted-foreground min-w-[90px]">{row.label}:</span>
-                                <span className="text-foreground font-medium">{row.value}</span>
-                              </div>
-                            ) : null
-                          )}
+                          .filter(
+                            (row): row is { label: string; value: string } =>
+                              typeof row === "object" && row !== null
+                          )
+                          .map((row, i) => (
+                            <div key={i} className="flex gap-2">
+                              <span className="text-muted-foreground min-w-[90px]">{row.label}:</span>
+                              <span className="text-foreground font-medium">{row.value}</span>
+                            </div>
+                          ))}
                       </div>
                     </div>
 
