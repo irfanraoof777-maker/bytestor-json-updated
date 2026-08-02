@@ -112,11 +112,15 @@ function StepIndicator({ current }: { current: number }) {
                 step.id < current
                   ? "bg-primary text-primary-foreground"
                   : step.id === current
-                  ? "bg-primary text-primary-foreground ring-4 ring-primary/20"
-                  : "bg-secondary text-muted-foreground"
+                    ? "bg-primary text-primary-foreground ring-4 ring-primary/20"
+                    : "bg-secondary text-muted-foreground"
               }`}
             >
-              {step.id < current ? <CheckCircle2 className="w-4 h-4" /> : step.id}
+              {step.id < current ? (
+                <CheckCircle2 className="w-4 h-4" />
+              ) : (
+                step.id
+              )}
             </div>
             <span
               className={`mt-2 text-xs font-medium hidden sm:block ${
@@ -143,23 +147,60 @@ function StepIndicator({ current }: { current: number }) {
 
 function PreviewCards({ data }: { data: InventoryPreview }) {
   const cards = [
-    { label: "Total VMs", value: data.total_vms, icon: <Server className="w-5 h-5 text-primary" /> },
-    { label: "Powered On", value: data.powered_on, icon: <Zap className="w-5 h-5 text-green-500" /> },
-    { label: "Powered Off", value: data.powered_off, icon: <Activity className="w-5 h-5 text-muted-foreground" /> },
-    { label: "Hosts", value: data.hosts, icon: <Building2 className="w-5 h-5 text-primary" /> },
-    { label: "Clusters", value: data.clusters, icon: <Users className="w-5 h-5 text-primary" /> },
-    { label: "Health Warnings", value: data.health_warnings, icon: <AlertTriangle className="w-5 h-5 text-amber-500" /> },
-    { label: "Network Entries", value: data.network_entries, icon: <Network className="w-5 h-5 text-primary" /> },
-    { label: "Snapshot Entries", value: data.snapshot_entries, icon: <Camera className="w-5 h-5 text-purple-500" /> },
+    {
+      label: "Total VMs",
+      value: data.total_vms,
+      icon: <Server className="w-5 h-5 text-primary" />,
+    },
+    {
+      label: "Powered On",
+      value: data.powered_on,
+      icon: <Zap className="w-5 h-5 text-green-500" />,
+    },
+    {
+      label: "Powered Off",
+      value: data.powered_off,
+      icon: <Activity className="w-5 h-5 text-muted-foreground" />,
+    },
+    {
+      label: "Hosts",
+      value: data.hosts,
+      icon: <Building2 className="w-5 h-5 text-primary" />,
+    },
+    {
+      label: "Clusters",
+      value: data.clusters,
+      icon: <Users className="w-5 h-5 text-primary" />,
+    },
+    {
+      label: "Health Warnings",
+      value: data.health_warnings,
+      icon: <AlertTriangle className="w-5 h-5 text-amber-500" />,
+    },
+    {
+      label: "Network Entries",
+      value: data.network_entries,
+      icon: <Network className="w-5 h-5 text-primary" />,
+    },
+    {
+      label: "Snapshot Entries",
+      value: data.snapshot_entries,
+      icon: <Camera className="w-5 h-5 text-purple-500" />,
+    },
   ];
 
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
       {cards.map((c) => (
-        <div key={c.label} className="bg-card border border-border rounded-xl p-4">
+        <div
+          key={c.label}
+          className="bg-card border border-border rounded-xl p-4"
+        >
           <div className="flex items-center gap-2 mb-2">
             {c.icon}
-            <span className="text-xs font-medium text-muted-foreground">{c.label}</span>
+            <span className="text-xs font-medium text-muted-foreground">
+              {c.label}
+            </span>
           </div>
           <div className="text-2xl font-bold text-foreground">
             {c.value !== undefined ? c.value : "—"}
@@ -192,11 +233,14 @@ function ExpertReviewModal({
   const [submitted, setSubmitted] = useState(false);
 
   const change = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, type, value } = e.target;
     const checked = (e.target as HTMLInputElement).checked;
-    setForm((prev) => ({ ...prev, [name]: type === "checkbox" ? checked : value }));
+    setForm((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
     setErrors((prev) => ({ ...prev, [name]: undefined }));
   };
 
@@ -205,7 +249,8 @@ function ExpertReviewModal({
     if (!form.orgName.trim()) errs.orgName = "Required";
     if (!form.contactName.trim()) errs.contactName = "Required";
     if (!form.email.trim()) errs.email = "Required";
-    else if (!validateEmail(form.email)) errs.email = "Enter a valid email address";
+    else if (!validateEmail(form.email))
+      errs.email = "Enter a valid email address";
     if (!form.consent) errs.consent = "You must agree before submitting";
     setErrors(errs as Partial<ExpertForm>);
     return Object.keys(errs).length === 0;
@@ -236,9 +281,12 @@ function ExpertReviewModal({
         {submitted ? (
           <div className="text-center py-8">
             <CheckCircle2 className="w-16 h-16 text-primary mx-auto mb-5" />
-            <h3 className="text-2xl font-bold text-foreground mb-3">Request Received</h3>
+            <h3 className="text-2xl font-bold text-foreground mb-3">
+              Request Received
+            </h3>
             <p className="text-muted-foreground mb-6">
-              Thank you, {form.contactName}. A ByteStor specialist will be in touch within 1–2 business days.
+              Thank you, {form.contactName}. A ByteStor specialist will be in
+              touch within 1–2 business days.
             </p>
             <button
               onClick={onClose}
@@ -250,9 +298,12 @@ function ExpertReviewModal({
         ) : (
           <form onSubmit={submit} className="space-y-5">
             <div>
-              <h2 className="text-xl font-bold text-foreground mb-1">Request Expert Review</h2>
+              <h2 className="text-xl font-bold text-foreground mb-1">
+                Request Expert Review
+              </h2>
               <p className="text-sm text-muted-foreground">
-                A ByteStor DR specialist will review your runbook and follow up with recommendations.
+                A ByteStor DR specialist will review your runbook and follow up
+                with recommendations.
               </p>
             </div>
 
@@ -270,7 +321,9 @@ function ExpertReviewModal({
                   className={inputCls}
                   placeholder="Your organisation"
                 />
-                {errors.orgName && <p className="text-red-500 text-xs mt-1">{errors.orgName}</p>}
+                {errors.orgName && (
+                  <p className="text-red-500 text-xs mt-1">{errors.orgName}</p>
+                )}
               </div>
               <div>
                 <label className={labelCls} htmlFor="er-contactName">
@@ -285,14 +338,21 @@ function ExpertReviewModal({
                   className={inputCls}
                   placeholder="Your name"
                 />
-                {errors.contactName && <p className="text-red-500 text-xs mt-1">{errors.contactName}</p>}
+                {errors.contactName && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.contactName}
+                  </p>
+                )}
               </div>
             </div>
 
             <div className="grid sm:grid-cols-2 gap-4">
               <div>
                 <label className={labelCls} htmlFor="er-email">
-                  <span className="flex items-center gap-1.5"><Mail className="w-3.5 h-3.5" />Email *</span>
+                  <span className="flex items-center gap-1.5">
+                    <Mail className="w-3.5 h-3.5" />
+                    Email *
+                  </span>
                 </label>
                 <input
                   id="er-email"
@@ -303,11 +363,16 @@ function ExpertReviewModal({
                   className={inputCls}
                   placeholder="you@company.com"
                 />
-                {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
+                {errors.email && (
+                  <p className="text-red-500 text-xs mt-1">{errors.email}</p>
+                )}
               </div>
               <div>
                 <label className={labelCls} htmlFor="er-phone">
-                  <span className="flex items-center gap-1.5"><Phone className="w-3.5 h-3.5" />Phone</span>
+                  <span className="flex items-center gap-1.5">
+                    <Phone className="w-3.5 h-3.5" />
+                    Phone
+                  </span>
                 </label>
                 <input
                   id="er-phone"
@@ -323,7 +388,10 @@ function ExpertReviewModal({
 
             <div>
               <label className={labelCls} htmlFor="er-meetingDate">
-                <span className="flex items-center gap-1.5"><CalendarDays className="w-3.5 h-3.5" />Preferred Meeting Date</span>
+                <span className="flex items-center gap-1.5">
+                  <CalendarDays className="w-3.5 h-3.5" />
+                  Preferred Meeting Date
+                </span>
               </label>
               <input
                 id="er-meetingDate"
@@ -336,7 +404,9 @@ function ExpertReviewModal({
             </div>
 
             <div>
-              <label className={labelCls} htmlFor="er-notes">Notes</label>
+              <label className={labelCls} htmlFor="er-notes">
+                Notes
+              </label>
               <textarea
                 id="er-notes"
                 name="notes"
@@ -358,10 +428,13 @@ function ExpertReviewModal({
                   className="mt-1 accent-primary"
                 />
                 <span className="text-sm text-muted-foreground">
-                  I consent to ByteStor contacting me regarding this DR review request. *
+                  I consent to ByteStor contacting me regarding this DR review
+                  request. *
                 </span>
               </label>
-              {errors.consent && <p className="text-red-500 text-xs mt-1">{errors.consent}</p>}
+              {errors.consent && (
+                <p className="text-red-500 text-xs mt-1">{errors.consent}</p>
+              )}
             </div>
 
             <button
@@ -425,13 +498,16 @@ export default function DRCopilotAssessment() {
     if (!org.orgName.trim()) errs.orgName = "Organisation name is required";
     if (!org.contactName.trim()) errs.contactName = "Contact name is required";
     if (!org.email.trim()) errs.email = "Business email is required";
-    else if (!validateEmail(org.email)) errs.email = "Enter a valid email address";
+    else if (!validateEmail(org.email))
+      errs.email = "Enter a valid email address";
     setOrgErrors(errs);
     return Object.keys(errs).length === 0;
   };
 
   const changeOrg = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >,
   ) => {
     const { name, value } = e.target;
     setOrg((prev) => ({ ...prev, [name]: value }));
@@ -458,10 +534,13 @@ export default function DRCopilotAssessment() {
       const dropped = e.dataTransfer.files[0];
       if (dropped) handleFileSelect(dropped);
     },
-    [handleFileSelect]
+    [handleFileSelect],
   );
 
-  const onDragOver = (e: React.DragEvent) => { e.preventDefault(); setDragActive(true); };
+  const onDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    setDragActive(true);
+  };
   const onDragLeave = () => setDragActive(false);
 
   const onFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -477,7 +556,10 @@ export default function DRCopilotAssessment() {
     setPreviewError("");
     setPreviewLoading(true);
 
-    const msgs = ["Reading RVTools inventory...", "Analyzing infrastructure..."];
+    const msgs = [
+      "Reading RVTools inventory...",
+      "Analyzing infrastructure...",
+    ];
     let msgIdx = 0;
     setPreviewLoadingMsg(msgs[0]);
     const msgInterval = setInterval(() => {
@@ -490,7 +572,11 @@ export default function DRCopilotAssessment() {
       setPreview(data);
       setStep(3);
     } catch (err) {
-      setPreviewError(err instanceof Error ? err.message : "Preview failed. Please try again.");
+      setPreviewError(
+        err instanceof Error
+          ? err.message
+          : "Preview failed. Please try again.",
+      );
     } finally {
       clearInterval(msgInterval);
       setPreviewLoading(false);
@@ -521,7 +607,11 @@ export default function DRCopilotAssessment() {
       setGeneratedFilename(filename);
       downloadBlob(blob, filename);
     } catch (err) {
-      setGenerateError(err instanceof Error ? err.message : "Generation failed. Please try again.");
+      setGenerateError(
+        err instanceof Error
+          ? err.message
+          : "Generation failed. Please try again.",
+      );
     } finally {
       clearInterval(genInterval);
       setGenerating(false);
@@ -536,7 +626,18 @@ export default function DRCopilotAssessment() {
 
   const handleStartNew = () => {
     setStep(1);
-    setOrg({ orgName: "", contactName: "", email: "", industry: "", locations: "", backupPlatform: "", storagePlatform: "", expectedRPO: "", expectedRTO: "", criticalApps: "" });
+    setOrg({
+      orgName: "",
+      contactName: "",
+      email: "",
+      industry: "",
+      locations: "",
+      backupPlatform: "",
+      storagePlatform: "",
+      expectedRPO: "",
+      expectedRTO: "",
+      criticalApps: "",
+    });
     setOrgErrors({});
     setFile(null);
     setFileError("");
@@ -563,7 +664,8 @@ export default function DRCopilotAssessment() {
             DR Readiness Assessment
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Complete the form below to generate your AI-assisted disaster recovery runbook.
+            Complete the form below to generate your AI-assisted disaster
+            recovery runbook.
           </p>
         </div>
       </section>
@@ -584,49 +686,85 @@ export default function DRCopilotAssessment() {
                 transition={{ duration: 0.3 }}
               >
                 <div className="bg-card border border-border rounded-2xl p-8">
-                  <h2 className="text-xl font-bold text-foreground mb-6">Organisation Details</h2>
+                  <h2 className="text-xl font-bold text-foreground mb-6">
+                    Organisation Details
+                  </h2>
 
                   <div className="space-y-5">
                     <div className="grid sm:grid-cols-2 gap-4">
                       <div>
-                        <label className={labelCls} htmlFor="orgName">Organisation Name *</label>
+                        <label className={labelCls} htmlFor="orgName">
+                          Organisation Name *
+                        </label>
                         <input
-                          id="orgName" name="orgName" type="text"
-                          value={org.orgName} onChange={changeOrg}
-                          className={inputCls} placeholder="Acme Corporation"
+                          id="orgName"
+                          name="orgName"
+                          type="text"
+                          value={org.orgName}
+                          onChange={changeOrg}
+                          className={inputCls}
+                          placeholder="Acme Corporation"
                           data-testid="input-orgName"
                         />
-                        {orgErrors.orgName && <p className="text-red-500 text-xs mt-1">{orgErrors.orgName}</p>}
+                        {orgErrors.orgName && (
+                          <p className="text-red-500 text-xs mt-1">
+                            {orgErrors.orgName}
+                          </p>
+                        )}
                       </div>
                       <div>
-                        <label className={labelCls} htmlFor="contactName">Contact Name *</label>
+                        <label className={labelCls} htmlFor="contactName">
+                          Contact Name *
+                        </label>
                         <input
-                          id="contactName" name="contactName" type="text"
-                          value={org.contactName} onChange={changeOrg}
-                          className={inputCls} placeholder="Jane Smith"
+                          id="contactName"
+                          name="contactName"
+                          type="text"
+                          value={org.contactName}
+                          onChange={changeOrg}
+                          className={inputCls}
+                          placeholder="Jane Smith"
                           data-testid="input-contactName"
                         />
-                        {orgErrors.contactName && <p className="text-red-500 text-xs mt-1">{orgErrors.contactName}</p>}
+                        {orgErrors.contactName && (
+                          <p className="text-red-500 text-xs mt-1">
+                            {orgErrors.contactName}
+                          </p>
+                        )}
                       </div>
                     </div>
 
                     <div>
-                      <label className={labelCls} htmlFor="email">Business Email *</label>
+                      <label className={labelCls} htmlFor="email">
+                        Business Email *
+                      </label>
                       <input
-                        id="email" name="email" type="email"
-                        value={org.email} onChange={changeOrg}
-                        className={inputCls} placeholder="jane@company.com"
+                        id="email"
+                        name="email"
+                        type="email"
+                        value={org.email}
+                        onChange={changeOrg}
+                        className={inputCls}
+                        placeholder="jane@company.com"
                         data-testid="input-email"
                       />
-                      {orgErrors.email && <p className="text-red-500 text-xs mt-1">{orgErrors.email}</p>}
+                      {orgErrors.email && (
+                        <p className="text-red-500 text-xs mt-1">
+                          {orgErrors.email}
+                        </p>
+                      )}
                     </div>
 
                     <div className="grid sm:grid-cols-2 gap-4">
                       <div>
-                        <label className={labelCls} htmlFor="industry">Industry</label>
+                        <label className={labelCls} htmlFor="industry">
+                          Industry
+                        </label>
                         <select
-                          id="industry" name="industry"
-                          value={org.industry} onChange={changeOrg}
+                          id="industry"
+                          name="industry"
+                          value={org.industry}
+                          onChange={changeOrg}
                           className={inputCls}
                           data-testid="select-industry"
                         >
@@ -643,11 +781,18 @@ export default function DRCopilotAssessment() {
                         </select>
                       </div>
                       <div>
-                        <label className={labelCls} htmlFor="locations">Number of Locations</label>
+                        <label className={labelCls} htmlFor="locations">
+                          Number of Locations
+                        </label>
                         <input
-                          id="locations" name="locations" type="number" min="1"
-                          value={org.locations} onChange={changeOrg}
-                          className={inputCls} placeholder="e.g. 3"
+                          id="locations"
+                          name="locations"
+                          type="number"
+                          min="1"
+                          value={org.locations}
+                          onChange={changeOrg}
+                          className={inputCls}
+                          placeholder="e.g. 3"
                           data-testid="input-locations"
                         />
                       </div>
@@ -655,20 +800,32 @@ export default function DRCopilotAssessment() {
 
                     <div className="grid sm:grid-cols-2 gap-4">
                       <div>
-                        <label className={labelCls} htmlFor="backupPlatform">Backup Platform</label>
+                        <label className={labelCls} htmlFor="backupPlatform">
+                          Backup Platform
+                        </label>
                         <input
-                          id="backupPlatform" name="backupPlatform" type="text"
-                          value={org.backupPlatform} onChange={changeOrg}
-                          className={inputCls} placeholder="e.g. Veeam, Commvault"
+                          id="backupPlatform"
+                          name="backupPlatform"
+                          type="text"
+                          value={org.backupPlatform}
+                          onChange={changeOrg}
+                          className={inputCls}
+                          placeholder="e.g. Veeam, Commvault"
                           data-testid="input-backupPlatform"
                         />
                       </div>
                       <div>
-                        <label className={labelCls} htmlFor="storagePlatform">Storage Platform</label>
+                        <label className={labelCls} htmlFor="storagePlatform">
+                          Storage Platform
+                        </label>
                         <input
-                          id="storagePlatform" name="storagePlatform" type="text"
-                          value={org.storagePlatform} onChange={changeOrg}
-                          className={inputCls} placeholder="e.g. NetApp, Pure Storage"
+                          id="storagePlatform"
+                          name="storagePlatform"
+                          type="text"
+                          value={org.storagePlatform}
+                          onChange={changeOrg}
+                          className={inputCls}
+                          placeholder="e.g. NetApp, Pure Storage"
                           data-testid="input-storagePlatform"
                         />
                       </div>
@@ -676,31 +833,47 @@ export default function DRCopilotAssessment() {
 
                     <div className="grid sm:grid-cols-2 gap-4">
                       <div>
-                        <label className={labelCls} htmlFor="expectedRPO">Expected RPO</label>
+                        <label className={labelCls} htmlFor="expectedRPO">
+                          Expected RPO
+                        </label>
                         <input
-                          id="expectedRPO" name="expectedRPO" type="text"
-                          value={org.expectedRPO} onChange={changeOrg}
-                          className={inputCls} placeholder="e.g. 4 hours"
+                          id="expectedRPO"
+                          name="expectedRPO"
+                          type="text"
+                          value={org.expectedRPO}
+                          onChange={changeOrg}
+                          className={inputCls}
+                          placeholder="e.g. 4 hours"
                           data-testid="input-rpo"
                         />
                       </div>
                       <div>
-                        <label className={labelCls} htmlFor="expectedRTO">Expected RTO</label>
+                        <label className={labelCls} htmlFor="expectedRTO">
+                          Expected RTO
+                        </label>
                         <input
-                          id="expectedRTO" name="expectedRTO" type="text"
-                          value={org.expectedRTO} onChange={changeOrg}
-                          className={inputCls} placeholder="e.g. 8 hours"
+                          id="expectedRTO"
+                          name="expectedRTO"
+                          type="text"
+                          value={org.expectedRTO}
+                          onChange={changeOrg}
+                          className={inputCls}
+                          placeholder="e.g. 8 hours"
                           data-testid="input-rto"
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label className={labelCls} htmlFor="criticalApps">Critical Applications</label>
+                      <label className={labelCls} htmlFor="criticalApps">
+                        Critical Applications
+                      </label>
                       <textarea
-                        id="criticalApps" name="criticalApps"
+                        id="criticalApps"
+                        name="criticalApps"
                         rows={3}
-                        value={org.criticalApps} onChange={changeOrg}
+                        value={org.criticalApps}
+                        onChange={changeOrg}
                         className={`${inputCls} resize-none`}
                         placeholder="List your most critical workloads, e.g. ERP, core banking, patient management..."
                         data-testid="textarea-criticalApps"
@@ -710,7 +883,9 @@ export default function DRCopilotAssessment() {
 
                   <div className="mt-8 flex justify-end">
                     <button
-                      onClick={() => { if (validateOrg()) setStep(2); }}
+                      onClick={() => {
+                        if (validateOrg()) setStep(2);
+                      }}
                       className="px-8 py-3 bg-primary text-primary-foreground font-semibold rounded-lg hover:bg-primary/90 transition-all flex items-center gap-2 shadow-lg shadow-primary/25"
                       data-testid="btn-next-step1"
                     >
@@ -731,9 +906,13 @@ export default function DRCopilotAssessment() {
                 transition={{ duration: 0.3 }}
               >
                 <div className="bg-card border border-border rounded-2xl p-8">
-                  <h2 className="text-xl font-bold text-foreground mb-2">Upload RVTools Export</h2>
+                  <h2 className="text-xl font-bold text-foreground mb-2">
+                    Upload RVTools Export
+                  </h2>
                   <p className="text-sm text-muted-foreground mb-6">
-                    Export your VMware inventory from RVTools as an Excel file (.xlsx or .xls, max {MAX_FILE_SIZE_MB} MB) and upload it below.
+                    Export your VMware inventory from RVTools as an Excel file
+                    (.xlsx or .xls, max {MAX_FILE_SIZE_MB} MB) and upload it
+                    below.
                   </p>
 
                   {/* Drop zone */}
@@ -746,8 +925,8 @@ export default function DRCopilotAssessment() {
                       dragActive
                         ? "border-primary bg-primary/5"
                         : file
-                        ? "border-primary/50 bg-primary/5"
-                        : "border-border hover:border-primary/50 hover:bg-secondary/50"
+                          ? "border-primary/50 bg-primary/5"
+                          : "border-border hover:border-primary/50 hover:bg-secondary/50"
                     }`}
                     data-testid="drop-zone"
                   >
@@ -763,11 +942,20 @@ export default function DRCopilotAssessment() {
                       <div className="flex flex-col items-center gap-3">
                         <FileSpreadsheet className="w-12 h-12 text-primary" />
                         <div>
-                          <p className="font-semibold text-foreground">{file.name}</p>
-                          <p className="text-sm text-muted-foreground mt-1">{formatBytes(file.size)}</p>
+                          <p className="font-semibold text-foreground">
+                            {file.name}
+                          </p>
+                          <p className="text-sm text-muted-foreground mt-1">
+                            {formatBytes(file.size)}
+                          </p>
                         </div>
                         <button
-                          onClick={(e) => { e.stopPropagation(); setFile(null); setPreview(null); setPreviewError(""); }}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setFile(null);
+                            setPreview(null);
+                            setPreviewError("");
+                          }}
                           className="text-xs text-muted-foreground hover:text-red-500 flex items-center gap-1 transition-colors"
                           data-testid="btn-remove-file"
                         >
@@ -779,10 +967,13 @@ export default function DRCopilotAssessment() {
                         <Upload className="w-12 h-12 text-muted-foreground" />
                         <div>
                           <p className="font-semibold text-foreground">
-                            {dragActive ? "Drop your file here" : "Drag & drop your RVTools export"}
+                            {dragActive
+                              ? "Drop your file here"
+                              : "Drag & drop your RVTools export"}
                           </p>
                           <p className="text-sm text-muted-foreground mt-1">
-                            or click to browse — .xlsx / .xls, up to {MAX_FILE_SIZE_MB} MB
+                            or click to browse — .xlsx / .xls, up to{" "}
+                            {MAX_FILE_SIZE_MB} MB
                           </p>
                         </div>
                       </div>
@@ -828,9 +1019,14 @@ export default function DRCopilotAssessment() {
                       data-testid="btn-preview"
                     >
                       {previewLoading ? (
-                        <><Loader2 className="w-4 h-4 animate-spin" /> Processing...</>
+                        <>
+                          <Loader2 className="w-4 h-4 animate-spin" />{" "}
+                          Processing...
+                        </>
                       ) : (
-                        <>Preview Environment <ArrowRight className="w-4 h-4" /></>
+                        <>
+                          Preview Environment <ArrowRight className="w-4 h-4" />
+                        </>
                       )}
                     </button>
                   </div>
@@ -853,7 +1049,9 @@ export default function DRCopilotAssessment() {
                       <CheckCircle2 className="w-6 h-6 text-primary" />
                     </div>
                     <div>
-                      <h2 className="text-xl font-bold text-foreground">Environment Preview</h2>
+                      <h2 className="text-xl font-bold text-foreground">
+                        Environment Preview
+                      </h2>
                       <p className="text-sm text-muted-foreground mt-0.5">
                         {file?.name} — parsed successfully
                       </p>
@@ -865,8 +1063,9 @@ export default function DRCopilotAssessment() {
                   <div className="mt-6 p-4 bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800 rounded-xl flex items-start gap-3">
                     <AlertTriangle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
                     <p className="text-xs text-amber-700 dark:text-amber-400">
-                      This preview is an automated parse of your RVTools export. Values are subject to
-                      change in the full report based on AI-assisted analysis.
+                      This preview is an automated parse of your RVTools export.
+                      Values are subject to change in the full report based on
+                      AI-assisted analysis.
                     </p>
                   </div>
 
@@ -903,7 +1102,9 @@ export default function DRCopilotAssessment() {
                   // Success state
                   <div className="bg-card border border-border rounded-2xl p-10 text-center">
                     <CheckCircle2 className="w-16 h-16 text-primary mx-auto mb-5" />
-                    <h2 className="text-2xl font-bold text-foreground mb-3">Report Generated Successfully</h2>
+                    <h2 className="text-2xl font-bold text-foreground mb-3">
+                      Report Generated Successfully
+                    </h2>
                     <p className="text-muted-foreground mb-2">
                       Your DR runbook has been downloaded as:
                     </p>
@@ -915,9 +1116,11 @@ export default function DRCopilotAssessment() {
                       <AlertTriangle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
                       <p className="text-xs text-amber-700 dark:text-amber-400">
                         <span className="font-semibold">Important: </span>
-                        This report is an AI-assisted draft. All findings, recovery priorities, RPO/RTO values,
-                        and recommendations must be reviewed and approved by qualified infrastructure and
-                        business stakeholders before production use.
+                        This report is an AI-assisted draft. All findings,
+                        recovery priorities, RPO/RTO values, and recommendations
+                        must be reviewed and approved by qualified
+                        infrastructure and business stakeholders before
+                        production use.
                       </p>
                     </div>
 
@@ -948,7 +1151,9 @@ export default function DRCopilotAssessment() {
                 ) : (
                   // Confirmation state
                   <div className="bg-card border border-border rounded-2xl p-8">
-                    <h2 className="text-xl font-bold text-foreground mb-6">Confirm & Generate</h2>
+                    <h2 className="text-xl font-bold text-foreground mb-6">
+                      Confirm & Generate
+                    </h2>
 
                     {/* Org summary */}
                     <div className="bg-secondary/50 rounded-xl p-5 mb-6">
@@ -960,9 +1165,18 @@ export default function DRCopilotAssessment() {
                           { label: "Organisation", value: org.orgName },
                           { label: "Contact", value: org.contactName },
                           { label: "Email", value: org.email },
-                          org.industry && { label: "Industry", value: org.industry },
-                          org.expectedRPO && { label: "Expected RPO", value: org.expectedRPO },
-                          org.expectedRTO && { label: "Expected RTO", value: org.expectedRTO },
+                          org.industry && {
+                            label: "Industry",
+                            value: org.industry,
+                          },
+                          org.expectedRPO && {
+                            label: "Expected RPO",
+                            value: org.expectedRPO,
+                          },
+                          org.expectedRTO && {
+                            label: "Expected RTO",
+                            value: org.expectedRTO,
+                          },
                         ]
                           .filter(
                             (row): row is { label: string; value: string } =>
@@ -970,8 +1184,12 @@ export default function DRCopilotAssessment() {
                           )
                           .map((row, i) => (
                             <div key={i} className="flex gap-2">
-                              <span className="text-muted-foreground min-w-[90px]">{row.label}:</span>
-                              <span className="text-foreground font-medium">{row.value}</span>
+                              <span className="text-muted-foreground min-w-[90px]">
+                                {row.label}:
+                              </span>
+                              <span className="text-foreground font-medium">
+                                {row.value}
+                              </span>
                             </div>
                           ))}
                       </div>
@@ -992,8 +1210,12 @@ export default function DRCopilotAssessment() {
                       <div className="flex items-center gap-3 p-4 bg-secondary/50 rounded-xl mb-6">
                         <FileSpreadsheet className="w-5 h-5 text-primary shrink-0" />
                         <div className="text-sm">
-                          <p className="font-medium text-foreground">{file.name}</p>
-                          <p className="text-muted-foreground">{formatBytes(file.size)}</p>
+                          <p className="font-medium text-foreground">
+                            {file.name}
+                          </p>
+                          <p className="text-muted-foreground">
+                            {formatBytes(file.size)}
+                          </p>
                         </div>
                       </div>
                     )}
@@ -1003,9 +1225,12 @@ export default function DRCopilotAssessment() {
                       <div className="flex items-start gap-3 mb-4">
                         <AlertTriangle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
                         <p className="text-xs text-amber-700 dark:text-amber-400">
-                          DR Copilot generates an AI-assisted draft based on supplied infrastructure data. All findings,
-                          recovery priorities, RPO values, RTO values, and recommendations must be reviewed and approved
-                          by qualified infrastructure and business stakeholders before production use.
+                          DR Copilot generates an AI-assisted draft based on
+                          supplied infrastructure data. All findings, recovery
+                          priorities, RPO values, RTO values, and
+                          recommendations must be reviewed and approved by
+                          qualified infrastructure and business stakeholders
+                          before production use.
                         </p>
                       </div>
                       <label className="flex items-start gap-3 cursor-pointer">
@@ -1017,7 +1242,8 @@ export default function DRCopilotAssessment() {
                           data-testid="checkbox-agree"
                         />
                         <span className="text-sm text-foreground font-medium">
-                          I understand this report is an AI-assisted draft and requires administrator review.
+                          I understand this report is an AI-assisted draft and
+                          requires administrator review.
                         </span>
                       </label>
                     </div>
@@ -1055,9 +1281,15 @@ export default function DRCopilotAssessment() {
                         data-testid="btn-generate"
                       >
                         {generating ? (
-                          <><Loader2 className="w-4 h-4 animate-spin" /> Generating...</>
+                          <>
+                            <Loader2 className="w-4 h-4 animate-spin" />{" "}
+                            Generating...
+                          </>
                         ) : (
-                          <><Download className="w-4 h-4" /> Generate DR Assessment</>
+                          <>
+                            <Download className="w-4 h-4" /> Generate DR
+                            Assessment
+                          </>
                         )}
                       </button>
                     </div>
@@ -1073,7 +1305,11 @@ export default function DRCopilotAssessment() {
       <AnimatePresence>
         {showExpert && (
           <ExpertReviewModal
-            prefill={{ orgName: org.orgName, contactName: org.contactName, email: org.email }}
+            prefill={{
+              orgName: org.orgName,
+              contactName: org.contactName,
+              email: org.email,
+            }}
             onClose={() => setShowExpert(false)}
           />
         )}
