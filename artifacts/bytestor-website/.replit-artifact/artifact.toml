@@ -1,13 +1,10 @@
 kind = "web"
 previewPath = "/"
 title = "Bytestor Website"
+description = "Bytestor IT Services company website featuring pages for services (IT services, consulting, training), clients, news, and contact. Designed for businesses looking for IT solutions and consulting services."
 version = "1.0.0"
 id = "artifacts/bytestor-website"
 router = "path"
-
-[[integratedSkills]]
-name = "react-vite"
-version = "1.0.0"
 
 [[services]]
 name = "web"
@@ -19,8 +16,8 @@ run = "pnpm --filter @workspace/bytestor-website run dev"
 
 [services.production]
 build = [ "pnpm", "--filter", "@workspace/bytestor-website", "run", "build" ]
-publicDir = "artifacts/bytestor-website/dist/public"
 serve = "static"
+publicDir = "artifacts/bytestor-website/dist/public"
 
 [[services.production.rewrites]]
 from = "/*"
