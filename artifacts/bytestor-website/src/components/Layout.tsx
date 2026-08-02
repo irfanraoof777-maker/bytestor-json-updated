@@ -18,6 +18,7 @@ const NAV_LINKS = [
   },
   { label: "Clients", href: "/clients" },
   { label: "News", href: "/news" },
+  { label: "DR Copilot", href: "/dr-copilot" },
   { label: "Contact Us", href: "/contact" },
 ];
 

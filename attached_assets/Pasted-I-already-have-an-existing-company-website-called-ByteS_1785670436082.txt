@@ -1,0 +1,274 @@
+I already have an existing company website called ByteStor. Do not redesign or break the current website. Keep the existing colors, fonts, navbar, footer, layout, pages, and branding.
+
+I want you to add a new product section called:
+
+DR Copilot by ByteStor
+
+This is an AI-assisted disaster recovery readiness assessment tool for VMware environments.
+
+The tool already has a separate Python FastAPI backend with these endpoints:
+
+GET /health
+
+POST /api/preview-inventory
+Accepts an RVTools Excel file as multipart/form-data using the field name:
+file
+
+POST /api/generate-runbook-pdf
+Accepts an RVTools Excel file as multipart/form-data using the field name:
+file
+
+The PDF endpoint returns a downloadable PDF file.
+
+Create the following pages and UI.
+
+1. Product marketing page
+
+Route:
+/dr-copilot
+
+Page heading:
+Know your recovery gaps before an outage.
+
+Subtitle:
+Upload an RVTools export to receive an AI-assisted disaster recovery readiness assessment, infrastructure risk analysis, tiered recovery sequence, and recovery runbook.
+
+Add sections explaining:
+
+- VMware inventory analysis
+- infrastructure risk detection
+- recovery tier generation
+- disaster recovery checklist
+- audit-friendly PDF report
+- optional ByteStor expert review
+
+Add two main buttons:
+
+Start Assessment
+View Sample Report
+
+Add a disclaimer:
+
+DR Copilot generates an AI-assisted draft based on supplied infrastructure data. All findings, recovery priorities, RPO values, RTO values, and recommendations must be reviewed and approved by qualified infrastructure and business stakeholders before production use.
+
+2. Assessment application page
+
+Route:
+/dr-copilot/assessment
+
+Create a professional multi-step form.
+
+Step 1: Organization details
+
+Fields:
+
+- Organization name, required
+- Contact name, required
+- Business email, required
+- Industry, optional
+- Number of locations, optional
+- Backup platform, optional
+- Storage platform, optional
+- Expected RPO, optional
+- Expected RTO, optional
+- Critical applications, optional textarea
+
+Step 2: RVTools upload
+
+Create a drag-and-drop upload area.
+
+Accept only:
+.xlsx
+.xls
+
+Maximum file size:
+20 MB
+
+Show the selected filename and file size.
+
+Add a button:
+Preview Environment
+
+When clicked, send the file to:
+
+${API_BASE_URL}/api/preview-inventory
+
+Use multipart/form-data with the field name:
+file
+
+Show a loading indicator while processing.
+
+Display the returned preview in clean summary cards such as:
+
+- Total VMs
+- Powered on
+- Powered off
+- Hosts
+- Clusters
+- Health warnings
+- Network entries
+- Snapshot entries
+
+Handle backend errors clearly.
+
+Step 3: Confirmation
+
+Show the organization details and inventory preview.
+
+Add a checkbox:
+
+I understand this report is an AI-assisted draft and requires administrator review.
+
+The checkbox must be selected before report generation.
+
+Add a button:
+Generate DR Assessment
+
+When clicked, send the same Excel file to:
+
+${API_BASE_URL}/api/generate-runbook-pdf
+
+Use multipart/form-data with field name:
+file
+
+The response is a PDF blob.
+
+Automatically create a browser download using a safe filename such as:
+
+Organization_Name_DR_Runbook.pdf
+
+Also display:
+
+Report generated successfully
+
+Add buttons:
+
+Download PDF Again
+Request Expert Review
+Start New Assessment
+
+3. Expert review form
+
+When the user clicks Request Expert Review, open a modal or page containing:
+
+- Organization name
+- Contact name
+- Email
+- Phone number
+- Notes
+- Preferred meeting date
+- Consent checkbox
+
+For now, store the submission in the application database or send it to an existing contact-form endpoint if one already exists.
+
+4. Sample report
+
+Add a section on the product page where I can later upload and link a sample PDF.
+
+Use a placeholder variable:
+
+SAMPLE_REPORT_URL
+
+The View Sample Report button should open this PDF in a new tab.
+
+5. API configuration
+
+Do not hardcode the FastAPI backend URL.
+
+Create an environment variable:
+
+VITE_API_BASE_URL
+
+or the equivalent environment-variable system used by this project.
+
+Example:
+
+VITE_API_BASE_URL=https://api.example.com
+
+Create one reusable API configuration file.
+
+Use the configured base URL for all API requests.
+
+6. Security and validation
+
+Do not expose any Anthropic API key in frontend code.
+
+The Anthropic key remains only inside the FastAPI backend.
+
+Validate:
+
+- required fields
+- email format
+- Excel extension
+- file size
+- API response status
+- empty response
+- failed PDF generation
+
+Disable buttons while requests are running.
+
+Prevent duplicate submissions.
+
+Do not store the uploaded RVTools file permanently in the browser.
+
+Do not log uploaded infrastructure data to the browser console.
+
+7. User experience
+
+Use the existing ByteStor design system.
+
+Make the pages:
+
+- responsive
+- professional
+- enterprise-focused
+- accessible
+- suitable for storage, backup, VMware, infrastructure, and disaster recovery customers
+
+Add progress steps:
+
+1. Details
+2. Upload
+3. Preview
+4. Generate
+
+Show helpful loading messages:
+
+Reading RVTools inventory...
+Analyzing infrastructure...
+Generating disaster recovery runbook...
+Preparing PDF...
+
+Do not claim that the tool performs actual recovery, failover, backup, or compliance certification.
+
+8. Navigation
+
+Add DR Copilot to the existing website navigation without removing existing links.
+
+Suggested navigation label:
+
+DR Copilot
+
+Link it to:
+/dr-copilot
+
+9. Code quality
+
+Use reusable components.
+
+Keep the code clean and organized.
+
+Do not replace existing pages.
+
+Do not change the existing ByteStor homepage unless required to add a small DR Copilot product section and navigation link.
+
+Before making changes, inspect the existing project structure, framework, routes, CSS system, and components.
+
+After implementation:
+
+- run the project
+- fix all build errors
+- confirm the existing website still works
+- confirm the new pages work
+- show me which files were created or modified
+- explain where I should set VITE_API_BASE_URL

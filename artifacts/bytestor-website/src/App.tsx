@@ -13,6 +13,8 @@ import Training from "@/pages/Training";
 import Clients from "@/pages/Clients";
 import News from "@/pages/News";
 import Contact from "@/pages/Contact";
+import DRCopilot from "@/pages/DRCopilot";
+import DRCopilotAssessment from "@/pages/DRCopilotAssessment";
 
 const queryClient = new QueryClient();
 
@@ -28,6 +30,8 @@ function Router() {
       <Route path="/clients" component={Clients} />
       <Route path="/news" component={News} />
       <Route path="/contact" component={Contact} />
+      <Route path="/dr-copilot/assessment" component={DRCopilotAssessment} />
+      <Route path="/dr-copilot" component={DRCopilot} />
       <Route component={NotFound} />
     </Switch>
   );
