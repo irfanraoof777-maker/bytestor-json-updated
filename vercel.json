@@ -3,6 +3,9 @@
   "outputDirectory": "artifacts/bytestor-website/dist/public",
   "installCommand": "pnpm install",
   "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
   ]
 }
